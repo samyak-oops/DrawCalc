@@ -7,8 +7,8 @@ from PIL import Image
 
 router = APIRouter()
 
-@router.post('')
-async def run(data: ImageData):
+@router.post('') # Endpoint to receive image data and analyze it
+async def run(data: ImageData): # Receive image data and variable dictionary from frontend
     image_data = base64.b64decode(data.image.split(',')[1])
     image_bytes = BytesIO(image_data)
     image = Image.open(image_bytes)

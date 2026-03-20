@@ -5,18 +5,19 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { motion } from "framer-motion";
 
-interface Response {
+interface Response {  // Structure for backend response
   expr: string;
   result: string;
   assign: boolean;
 }
 
-interface ResultCard {
+interface ResultCard {  // Structure for draggable result cards
   expression: string;
   answer: string;
   id: number;
 }
 
+// Main Home Component
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -27,7 +28,7 @@ export default function Home() {
   const [dictOfVars, setDictOfVars] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
-  // 🧹 Reset canvas
+  // Reset canvas
   const resetCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -38,6 +39,7 @@ export default function Home() {
     }
   };
 
+  // Handle reset state
   useEffect(() => {
     if (reset) {
       resetCanvas();
@@ -47,7 +49,7 @@ export default function Home() {
     }
   }, [reset]);
 
-  // 🎨 Canvas setup
+  // Canvas setup
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -61,6 +63,7 @@ export default function Home() {
       ctx.lineWidth = 4;
     }
 
+    // Handle window resize to keep canvas full-screen
     const handleResize = () => {
       const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
       canvas.width = window.innerWidth;
@@ -68,15 +71,16 @@ export default function Home() {
       if (imageData && ctx) ctx.putImageData(imageData, 0, 0);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize); // Add resize listener
+    return () => window.removeEventListener("resize", handleResize);// Cleanup on unmount
   }, []);
 
-  // 🚀 Send data to backend
+  // Send data to backend
   const sendData = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Prevent multiple submissions while loading
     setLoading(true);
     try {
       const response = await axios.post(
@@ -90,13 +94,14 @@ export default function Home() {
       const resp = response.data;
       console.log("Backend response:", resp);
 
+      // Handle case where no results are returned
       if (!resp.data || resp.data.length === 0) {
         console.warn("No results returned from backend.");
         setLoading(false);
         return;
       }
 
-      // Update variable assignments
+      // This Updates variable assignments
       const newVars: Record<string, string> = { ...dictOfVars };
       resp.data.forEach((item: Response) => {
         if (item.assign) {
@@ -105,7 +110,7 @@ export default function Home() {
       });
       setDictOfVars(newVars);
 
-      // Add ALL results as draggable cards
+      // Add all results as draggable cards
       const newCards: ResultCard[] = resp.data.map(
         (item: Response, idx: number) => ({
           expression: item.expr,
@@ -128,7 +133,7 @@ export default function Home() {
     }
   };
 
-  // ✏️ Drawing handlers
+  //  Drawing handlers
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const ctx = canvasRef.current?.getContext("2d");
     if (ctx) {
@@ -138,8 +143,9 @@ export default function Home() {
     }
   };
 
-  const stopDrawing = () => setIsDrawing(false);
+  const stopDrawing = () => setIsDrawing(false); // Stop drawing on mouse up or when cursor leaves canvas
 
+  // Draw on canvas
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
     const ctx = canvasRef.current?.getContext("2d");
@@ -223,7 +229,7 @@ export default function Home() {
         onMouseMove={draw}
       />
 
-      {/* 🔥 Draggable Result Cards — one per result */}
+      {/* Draggable result cards — one per result */}
       {results.map((card, index) => (
         <motion.div
           key={card.id}

@@ -6,7 +6,7 @@ from constants import GEMINI_API_KEY
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-def analyze_image(img: Image, dict_of_vars: dict):
+def analyze_image(img: Image, dict_of_vars: dict): # Analyze the image and return the answer according to the given rules
     dict_of_vars_str = json.dumps(dict_of_vars)
 
     prompt = (
@@ -68,7 +68,8 @@ def analyze_image(img: Image, dict_of_vars: dict):
                 ans['assign'] = False
 
         return answers
-
+ 
+    # Handle any exceptions that occur during API call or parsing
     except Exception as e:
         print("Gemini API Error:", e)
         return []
