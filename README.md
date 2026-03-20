@@ -8,13 +8,13 @@ DrawCalc is an AI-powered web application that interprets **hand-drawn mathemati
 ### 🖌️ Drawing Input
 
 <p align="center">
-  <img src="./assets/input.png" alt="Drawing Input" width="80%"/>
+  <img src="./assets/input.jpeg" alt="Drawing Input" width="80%"/>
 </p>
 
 ### 🤖 AI Generated Solution
 
 <p align="center">
-  <img src="./assets/output.png" alt="AI Output" width="80%"/>
+  <img src="./assets/output.jpeg" alt="AI Output" width="80%"/>
 </p>
 
 
