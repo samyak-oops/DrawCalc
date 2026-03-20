@@ -68,8 +68,8 @@ DrawCalc/
 ### 🔹 Clone the repository
 
 ```
-git clone https://github.com/your-username/drawcalc.git
-cd drawcalc
+git clone https://github.com/samyak-oops/DrawCalc.git
+cd DrawCalc
 ```
 
 ---
@@ -109,7 +109,7 @@ npm run dev
 
 1. Open the frontend in browser
 2. Draw a mathematical expression
-3. Click **Run**
+3. Click **Calculate**
 4. View AI-generated results instantly
 
 ---
@@ -135,7 +135,7 @@ npm run dev
 
 **Your Name**
 
-* GitHub: https://github.com/your-username
+* GitHub: https://github.com/samyak-oops
 
 ---
 
